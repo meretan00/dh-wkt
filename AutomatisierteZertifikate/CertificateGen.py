@@ -6,7 +6,7 @@ from datetime import datetime
 import fitz  # PyMuPDF
 
 
-with open('config.yaml', 'r') as f:
+with open('AutomatisierteZertifikate/config.yaml', 'r') as f:
     config = yaml.safe_load(f)
 
 workshopid = config["workshopid"]
@@ -14,26 +14,26 @@ out_path = workshopid
 signaturefile = config["signature"]
 
 
-participantsdf = pd.read_csv(f"Data\\Workshops\\{workshopid}\\{workshopid}_participants.csv")
+participantsdf = pd.read_csv(f"AutomatisierteZertifikate\\Workshops\\{workshopid}\\{workshopid}_participants.csv")
 
 participants = pd.Series(participantsdf['Title'].values,
                          index = participantsdf['Name']).to_dict()
 
-with open(f'Data\\Workshops\\{workshopid}\\{workshopid}_description.json',encoding="UTF-8") as description:
+with open(f'AutomatisierteZertifikate\\Workshops\\{workshopid}\\{workshopid}_description.json',encoding="UTF-8") as description:
     workshop_text = json.load(description)
     print(workshop_text)
 
-if config["language"] is 'de':
-    with open(r'Data\de_text.json',encoding="UTF-8") as fixedtext:
+if config["language"] == 'de':
+    with open(r'AutomatisierteZertifikate\Data\de_text.json',encoding="UTF-8") as fixedtext:
         fixed_text = json.load(fixedtext)
         print(fixed_text)
 else:
-    with open(r'Data\en_text.json',encoding="UTF-8") as fixedtext:
+    with open(r'AutomatisierteZertifikate\Data\en_text.json',encoding="UTF-8") as fixedtext:
         fixed_text = json.load(fixedtext)
         print(fixed_text)
 
 # Load your background image
-background = Image.open(r'Media\WKT_Certificate-01.png')
+background = Image.open(r'AutomatisierteZertifikate\Media\WKT_Certificate-01.png')
 
 def draw_multiline_text(draw, text, position, font, color, max_width):
     lines = []
@@ -59,7 +59,7 @@ def draw_multiline_text(draw, text, position, font, color, max_width):
 
 def add_text_to_image(output_path, fixed_text, workshop_text, participant_name, participant_title):
     # Load the background image
-    background = Image.open(r'Media\WKT_Certificate-01.png')
+    background = Image.open(r'AutomatisierteZertifikate\Media\WKT_Certificate-01.png')
     draw = ImageDraw.Draw(background)
 
     # Paragraph 2
@@ -137,7 +137,7 @@ def add_text_to_image(output_path, fixed_text, workshop_text, participant_name, 
 
 
     # Adding the signature
-    png_image_path = fr'Media\{signaturefile}'
+    png_image_path = fr'AutomatisierteZertifikate\Media\{signaturefile}'
     png_img = Image.open(png_image_path)
     # Original dimensions
     original_width, original_height = png_img.size
@@ -162,9 +162,7 @@ def add_text_to_image(output_path, fixed_text, workshop_text, participant_name, 
 
 notitle = config["ignoretitles"]
 
-if notitle:
-    continue
-else:
+if not notitle:
     notitle = ["nd"]
 
 for key, value in participants.items():
@@ -173,7 +171,7 @@ for key, value in participants.items():
     else:
         participanttitle = value
 
-    output_path = f"Data/Workshops/{workshopid}/{out_path}/OCR4all_Zertifikat_{key.replace(' ','')}.pdf"
+    output_path = f"AutomatisierteZertifikate/Workshops/{out_path}/OCR4all_Zertifikat_{key.replace(' ','')}.pdf"
 
     add_text_to_image(output_path, 
                       fixed_text, 
