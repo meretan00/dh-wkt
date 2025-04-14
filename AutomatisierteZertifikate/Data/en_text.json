@@ -2,8 +2,10 @@
     "title": "Certificate",
     "sentence1": "has successfully participated on the Workshop",
     "sentence2a": "on",
-    "sentence2b": "as part of the workshop series of the WKT research focus \"Digital Hermeneutics\" in the",
+    "sentence2b": "as part of the workshop series",
+    "sentence2b2": "of the WKT research focus \"Digital Hermeneutics\"",
+    "sentence2b3": "in the",
     "sentence2c": "at the University of Rostock.",
     "contents": "Course contents",
-    "role": "Coordinator of the WKT research focus \"Digital Hermeneutics\" "
+    "role": "Coordinator \"Digital Hermeneutics\" "
 }

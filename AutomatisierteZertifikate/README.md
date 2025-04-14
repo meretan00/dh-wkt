@@ -1,84 +1,71 @@
-# Automatisierte Zertifikate
-Dieses Tool kann zur automatischen Erstellung von Zertifikate im Rahmen von Workshops des Forschungsschwerpunkts Digitale Hermeneutik verwendet werden.
+# 🧾 Zertifikatsgenerator – Digitale Hermeneutik
 
-## So funktionert es
+Dieses Programm erzeugt automatisiert Teilnahmezertifikate für Workshops der Digitalen Hermeneutik.
+Es wird lokal mit einer grafischen Oberfläche ausgeführt und verarbeitet Teilnehmerlisten im CSV-Format.
 
-CertificateGen.py nimmt Informationen aus verschiedenen Quellen auf, um das Zertifikat zusammenzustellen. 
-- Der stabile Text (der sich unabhängig vom Workshop nicht ändert) wird je nach Sprache entweder aus de_text.json oder en_json extrahiert.
-- Der variable Text wird aus einer workshopabhängigen Datei extrahiert, die für jedes neue Zertifikatsmodell erstellt werden muss (zum Beispiel: 202305_CoolTool_description).
-- Die Namen der Teilnehmer sowie ihre akademischen TitDie oben genannten Daten sind nicht "hard coded" im Tool. Das heißt, dass der Speicherort der Eingabedaten immer in einer config.yaml-Datei definiert werden muss.el und Abschlüsse werden aus einer .csv-Datei entnommen, die ebenfalls für jedes neue Zertifikatsmodell erstellt werden muss (aus Datenschutzgründen ist diese Datei nicht im Repository enthalten).
-- Außerdem wird die Unterschrift des Verantwortlichen für die Unterzeichnung des Dokuments verwendet (diese wird aus Datenschutzgründen nicht in das Repository aufgenommen).
-- Schließlich wird auch das Hintergrundlayout des Zertifikats vom Tool verwendet (WKT_Certificate-01.png).
+## 🔧 Voraussetzungen
 
-Die oben genannten Daten sind nicht "hard coded" im Tool. Das heißt, dass der Speicherort der Eingabedaten immer in einer config.yaml-Datei definiert werden muss.
+- **Python 3.9+**
+- Installation notwendiger Bibliotheken:
+  ```bash
+  pip install Pillow
+  ```
 
-## Standards for the input files
+## 🚀 Start des Programms
 
-### Variable Text
-Diese Datei enthält Informationen zu dem Workshop oder der Veranstaltung, auf die sich das Zertifikat bezieht.
+Starte das Programm mit:
 
-Wir schlagen den folgenden Namensstandard für die Datei vor:
-
-{Year}{Month}_{NamedesWorkshops}_description.json
-
-z.B.: 202311_OCR4all_description.json
-
-- course_title: vollständiger Titel des Workshops
-- course_contents: Liste der Inhalte des Workshops. Hier ist es sinnvoll, sich auf Inhalte zu konzentrieren, die für ein Zertifikat relevant sind, z.B. bestimmte Software, Methoden oder erlernte Fähigkeiten. Der Inhalt sollte in eckige Klammern gesetzt werden; jeder einzelne Punkt sollte in Anführungszeichen gesetzt und durch Kommata voneinander getrennt werden.
-- date_begin: Datum des ersten Tages des Workshops. Den ISO-Standard verwenden, d.h. 'JJJJ-MM-TT'.
-- date_end: Datum des letzten Tages des Workshops. Wenn der Workshop an einem Tag war, sind das Anfangs- und das Enddatum identisch. Den ISO-Standard verwenden, d.h. 'JJJJ-MM-TT'.
-- place: Die Stadt, in der der Workshop stattfindet, oder der Veranstalter, wenn online.
-- semester: Winter- oder Sommersemester.
-
-```
-{
-    "course_title": "Erschließung gedruckter und handschriftlicher Textzeugen mit OCR4all",
-    "course_contents": [
-        "Allgemeine Einführung in die automatische Texterkennung",
-        "Einführung in Transkription und Transkriptionsrichtlinien",
-        "Einführung in LAREX",
-        "Vorstellung der neuen OCR4all-Version"
-    ],
-    "date_begin": "2023-11-23",
-    "date_end": "2023-11-23",
-    "place": "Rostock",
-    "semester": "Wintersemester"
-}
+```bash
+python Main.py
 ```
 
-### Liste der Teilnehmer
+## 🖼️ Funktionen
 
-Alle Teilnehmer sollten in einer .csv-Datei mit zwei Spalten aufgelistet werden, eine Spalte ("Name") mit dem vollständigen Namen des Teilnehmers und eine ("Title") mit dem akademischen Titel oder Abschluss. Wenn der Teilnehmer keinen Abschluss hat, sollte der Wert "nd" angegeben werden.
+- Generierung von PDF-Zertifikaten auf Basis einer Teilnehmerliste
+- Anpassbare Workshopdaten (Titel, Inhalte, Datum, Sprache)
+- Integration eines grafischen Templates
+- Unterstützung von Signaturbildern
+- Deutsch/Englisch auswählbar
+- Speicherung & Laden von Eingaben via JSON
 
-Wir schlagen den folgenden Namensstandard für die Datei vor:
+## 📋 Anwendungsschritte
 
-{Year}{Month}_{NamedesWorkshops}_participants.csv
+1. **Grundeinstellungen:** Semester, Präfix, Datum, Sprache wählen
+2. **Signaturbild laden (optional)**
+3. **CSV-Teilnehmerliste importieren**
+4. **Zielordner zum Speichern wählen**
+5. **Workshopbeschreibung eintragen (Titel, max. 10 Inhalte)**
+6. **Schriftgröße anpassen (optional)**
+7. **Einstellungen speichern/laden**
+8. **Zertifikate generieren**
 
-z.B.: 202311_OCR4all_participants.csv
+## ⚠️ Typische Fehlermeldungen
 
-| Name | Title |
-| ------------- | ------------- |
-| Jane Doe | Prof.Dr.  |
-| John Doe  | M.A.  |
-| Joseph Adams  | nd  |
-| Mufasa Löwe  | B.Sc.  |
+- *Filepräfix entspricht nicht dem erwarteten Muster*  
+  → Beispiel: `20241124_XML`
 
-### Signature
+- *Teilnehmerliste hat mehr als eine Spalte*  
+  → Nur eine Spalte mit Namen zulässig
 
-Die Unterschriftsdaten sollten ein .png Bild mit hoher Auflösung der Unterschrift sein. Die Datei sollte im Ordner Media gespeichert werden.
+- *Zeitformat ungültig*  
+  → Format: `YYYY-MM-DD`
 
-### config.yaml
+- *Keine Sprache gewählt*  
+  → Auswahl erforderlich
 
-- workshopid: Kurzbezeichnung des Workshops. Sollte dem Namen entsprechen, der in den Dateien (...)description.json und (...) participants.csv angegeben ist. Wir empfehlen folgenden Standard: {Year}{Month}_{NamedesWorkshops}
-- language: en für Englisch und de für Deutsch.
-- signature: Name der png-Datei mit der Unterschrift.
-- ignoretitles: Liste der Titel/Abschluss, die in den Zertifikaten ignoriert werden sollen. Wenn zum Beispiel keine B.A.-Abschluss ausgedruckt werden sollen, sollte die Liste wie folgt aussehen: ["nd", "B.A."]. Wenn alle Titel und Abschlüsse gedruckt werden sollen, sollte der Wert lauten: ["nd"].
+## 📂 Projektstruktur
 
-```
-workshopid: 202311_OCR4all
-language: de
-signature: FAF.png
-ignoretitles: ["nd"]
-```
+| Datei/Ordner                | Beschreibung                             |
+|----------------------------|------------------------------------------|
+| `Main.py`                  | Startpunkt mit GUI                       |
+| `input_checker.py`         | Prüft Eingaben, Formate & Dateiinhalte  |
+| `CertGUI.py`               | GUI-Logik                                |
+| `Media/`                   | Layout-Bild (`WKT_Certificate-01.png`)  |
+| `Data/`                    | Sprachvorlagen (`de_text.json`, `en_text.json`) |
+| `unterschrift.png`         | Optionale Signaturdatei                  |
 
-![](Media/certificate_preview.png)
+## 📝 Lizenz
+
+Dieses Projekt wurde von mir erstellt und darf gerne **nicht-kommerziell genutzt, verändert und erweitert** werden.  
+Eine kommerzielle Nutzung oder Weiterverbreitung ist **nur nach vorheriger Rücksprache** gestattet.  
+Bitte bei Weiterverwendung den ursprünglichen Urheber nennen.

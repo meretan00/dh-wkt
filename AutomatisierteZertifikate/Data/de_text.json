@@ -2,8 +2,10 @@
     "title": "Zertifikat",
     "sentence1": "hat erfolgreich an dem Workshop",
     "sentence2a": "am",
-    "sentence2b": "im Rahmen der Workshop-Reihe des WKT-Forschungsschwerpunktes \"Digitale Hermeneutik\" im",
+    "sentence2b": "im Rahmen der Workshop-Reihe",
+    "sentence2b2": "des WKT-Forschungsschwerpunktes \"Digitale Hermeneutik\"",
+    "sentence2b3": "im",
     "sentence2c": "an der Universität Rostock.",
     "contents": "Lehrinhalte",
-    "role": "Koordinatorin des WKT-Forschungsschwerpunktes \"Digitale Hermeneutik\" "
+    "role": "Koordinator \"Digitale Hermeneutik\" "
 }
