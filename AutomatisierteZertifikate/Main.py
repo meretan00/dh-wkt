@@ -7,14 +7,17 @@ import os
 import csv
 #local
 import input_checker
+import sys
 
-
-
+if getattr(sys, 'frozen', False):
+    BASE_DIR = sys._MEIPASS  # <- temporärer Pfad im PyInstaller-Bundle
+else:
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+   
 #Takes list with elements as folders and files that lead to the wanted file.
 #Location stands in relation to your py-file (eg. within the same folder the list is simply the file ["202311_ORC4all.json"])
 def get_file_path(file_path: list):
-    folder_path = os.path.dirname(__file__)
-    return os.path.join(folder_path, *file_path)
+    return os.path.join(BASE_DIR, *file_path)
 
 def draw_multiline_text(draw, text, position, font, color, max_width):
     lines = []
@@ -42,7 +45,7 @@ class GUI(Certificator):
         super().__init__()
 
     def combine_pathes(self, filepath):
-        return os.path.join(os.path.dirname(__file__), filepath)
+        return os.path.join(BASE_DIR, filepath)
     
     def add_text_to_image(self, output_path, fixed_text, participant_name):
         # Load the background image

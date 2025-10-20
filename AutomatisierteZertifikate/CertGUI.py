@@ -4,6 +4,7 @@ from tkinter import filedialog
 import os
 import re
 import json
+import sys
 #Local
 import input_checker
 
@@ -22,8 +23,6 @@ class Certificator():
         self.folderpath_variable = tk.StringVar(root)
         self.folderpath_label_variable = tk.StringVar(root)
         self.signature_variable = tk.StringVar(root)
-        #Set default for signature
-        self.signature_variable.set(os.path.join(os.path.dirname(__file__), "unterschrift.png"))
         self.signature_label_variable = tk.StringVar(root)
         self.language_variable = tk.StringVar(root)
         #self.description_variable = tk.StringVar(root)
@@ -52,9 +51,16 @@ class Certificator():
                         self.workshop_descr_3_variable, self.workshop_descr_4_variable, self.workshop_descr_5_variable,
                         self.workshop_descr_6_variable, self.workshop_descr_7_variable, self.workshop_descr_8_variable,
                         self.workshop_descr_9_variable]
-        
-        
-        self.start_path = os.path.dirname(__file__)
+        # Wenn es als .exe läuft
+        if getattr(sys, 'frozen', False):
+            self.BASE_DIR = sys._MEIPASS  # temporärer Entpackpfad von PyInstaller
+        else:
+            # Wenn es als .py läuft
+            self.BASE_DIR = os.path.dirname(__file__)
+
+        self.start_path = self.BASE_DIR
+        #Set default for signature
+        self.signature_variable.set(os.path.join(self.BASE_DIR, "unterschrift.png"))
         
         root.title("Zertifikate der Digitalen Hermeneutik")
         #Label Workshop Information
@@ -198,7 +204,7 @@ class Certificator():
         self.signature_label_variable.set(re.sub(r"(.*?)([\.\-\w]+)$", r"\2" , signature_path))
 
     def choose_folder(self):
-        self.start_path = os.path.dirname(__file__)
+        self.start_path = self.BASE_DIR
         #Open Window to choose folder to save certificates
         folder_path = filedialog.askdirectory(initialdir = self.start_path)
         self.folderpath_variable.set(folder_path)
@@ -272,7 +278,7 @@ class Certificator():
                 
     def clear_instance_variables(self):
         #Set Instance Variabls back to default
-        self.signature_variable.set(os.path.join(os.path.dirname(__file__), "unterschrift.png"))
+        self.signature_variable.set(os.path.join(self.BASE_DIR, "unterschrift.png"))
         self.title_size.set(70)
         
         #Collect all Instance Variables except for those with default values
