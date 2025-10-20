@@ -94,15 +94,15 @@ class GUI(Certificator):
         font = ImageFont.truetype("times.ttf", font_size)
 
         # Example coordinates (adjust these based on your layout)
-        title_coords = (200, 850)
-        participant_title_coords = (200, 1200)
-        participant_coords = (200, 1300)
-        paragraph1_coords = (200, 1450)
-        coursetitle_coords = (200, 1550)
-        paragraph2_coords = (200, 1650)
-        paragraph3_coords = (200, 1750)
-        paragraph4_coords = (200, 1850)
-        contentstitle_coords = (200, 1950)
+        title_coords = (200, 750) #'Zertifikat'
+        participant_title_coords = (200, 1100)
+        participant_coords = (200, 1200)
+        paragraph1_coords = (200, 1350)
+        coursetitle_coords = (200, 1450)
+        paragraph2_coords = (200, 1550)
+        paragraph3_coords = (200, 1650)
+        paragraph4_coords = (200, 1750)
+        contentstitle_coords = (200, 1850)
         placedate_coords = (240,2785)
         sigtitle_coords = (1350,2855)
         sig_placedate_coords = (250,2855)
@@ -120,7 +120,7 @@ class GUI(Certificator):
         
         #Write Workshop Content on certificate
         bullet = u'\u2022'
-        x, y = 250, 2050
+        x, y = 250, 1950 #Position of Content
         for stringvar in self.descr_list:
             if stringvar.get() != "":
                 contenttext = f"{bullet} {stringvar.get()}"
@@ -152,7 +152,7 @@ class GUI(Certificator):
         # If the PNG image (Signature) has transparency (alpha channel)
         if png_img.mode in ('RGBA', 'LA') or (png_img.mode == 'P' and 'transparency' in png_img.info):
             # Use alpha composite
-            background.paste(png_img, (1400,2600), png_img)
+            background.paste(png_img, (1400,2700), png_img)
 
         # Save as PDF
         background.save(output_path, "PDF")
